@@ -1,3 +1,3 @@
 ﻿# Non-Graded-Challenge
 
-# Tugas dari Hacktive8
+Tugas dari Hacktive8
