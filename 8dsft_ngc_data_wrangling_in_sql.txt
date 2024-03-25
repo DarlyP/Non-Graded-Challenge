@@ -1,0 +1,20 @@
+SELECT
+    Year,
+    Month,
+    SUM(Cumulative_Patents) OVER (PARTITION BY Year ORDER BY Month) as total_patent
+FROM (
+  SELECT
+    EXTRACT(YEAR FROM PARSE_DATE('%Y%m%d', Grant_or_Publication_Date)) AS Year,
+    EXTRACT(MONTH FROM PARSE_DATE('%Y%m%d', Grant_or_Publication_Date)) AS Month,
+    COUNT(*) as Cumulative_Patents 
+  FROM 
+    patents-public-data.uspto_oce_cancer.publications
+  WHERE 
+    EXTRACT(YEAR FROM PARSE_DATE('%Y%m%d', Grant_or_Publication_Date)) BETWEEN 2012 AND 2023
+AND 
+    Patent_Title LIKE '%data_mining%'
+  GROUP BY 
+    Year, Month
+)
+ORDER BY 
+  Year DESC, Month ASC
